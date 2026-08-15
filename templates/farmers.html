@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmers</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .farmer {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .farmer p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Our Farmers</h1>
+    {% for farmer in farmers %}
+    <div class="farmer">
+      <p><strong>Name:</strong> {{ farmer['Farmer Name'] }}</p>
+      <p><strong>Location:</strong> {{ farmer['Farmer Location'] }}</p>
+      <p><strong>Email:</strong> {{ farmer['Farmer Email'] }}</p>
+      <p><strong>Phone:</strong> {{ farmer['Phone Number'] }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

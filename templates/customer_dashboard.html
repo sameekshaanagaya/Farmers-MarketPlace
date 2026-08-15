@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    body {
+      background: #f4f6f8;
+      overflow-x: hidden;
+      transition: padding-left 0.3s ease;
+    }
+
+    .header {
+      background: #343a40;
+      color: white;
+      padding: 15px 30px;
+      font-size: 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 1001;
+    }
+
+    .menu-toggle {
+      width: 30px;
+      height: 25px;
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 20px;
+      vertical-align: middle;
+      flex-shrink: 0;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-toggle .bar {
+      width: 100%;
+      height: 4px;
+      background-color: white;
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: 0.4s;
+      transform-origin: center;
+    }
+
+    .menu-toggle.active .top {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-toggle.active .middle {
+      opacity: 0;
+    }
+
+    .menu-toggle.active .bottom {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    .container {
+      display: flex;
+      padding-top: 60px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to bottom, #1e1e2f, #34495e);
+      color: white;
+      padding: 20px;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.35s ease;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      margin-top: 30px;
+    }
+
+    .sidebar ul li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      transition: background 0.25s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .sidebar ul li:hover {
+      background: #3a3a4f;
+      transform: translateX(6px);
+    }
+
+    main.dashboard {
+      flex-grow: 1;
+      margin-left: 0;
+      padding: 20px;
+      width: 100%;
+      background: #fff;
+      transition: margin-left 0.3s ease, width 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    @media(min-width: 769px) {
+      body.sidebar-open main.dashboard {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+      }
+    }
+
+    .welcome {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 220px;
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .product-card h4 {
+      margin: 10px 0 5px;
+    }
+
+    .product-card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .profile-menu {
+      position: relative;
+    }
+
+    .profile-icon {
+      cursor: pointer;
+    }
+
+    .profile-icon img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background-color: #fff;
+      color: #333;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      display: none;
+      flex-direction: column;
+      z-index: 1002;
+      min-width: 150px;
+    }
+
+    .dropdown.show {
+      display: flex;
+    }
+
+    .dropdown a {
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu" role="button" tabindex="0">
+      <div class="bar top"></div>
+      <div class="bar middle"></div>
+      <div class="bar bottom"></div>
+    </div>
+
+    <div style="flex: 1; text-align: center; font-size: 22px; font-weight: bold;">
+      Farmer's Marketplace
+    </div>
+
+    <div class="profile-menu">
+      <div class="profile-icon" onclick="toggleDropdown()" tabindex="0">
+        <img src="/static/user-icon.png" alt="User" />
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="sidebar" id="sidebar">
+      <ul>
+        <li onclick="navigate('/customer/dashboard')">Home</li>
+        <li onclick="navigate('/categories')">Categories</li>
+        <li onclick="navigate('/farmers')">Farmers</li>
+        <li onclick="navigate('/institutions')">Institutions</li>
+        <li onclick="navigate('/cart')">Cart</li>
+        <li onclick="navigate('/profile')">Profile</li>
+      </ul>
+    </nav>
+
+    <main class="dashboard">
+      <div class="welcome">Welcome, {{ session['email'] }}</div>
+
+      <div class="section-title">Latest Products</div>
+      <div class="product-grid">
+        {% for product in latest_products %}
+        <div class="product-card">
+          {% if product['Image URL'] %}
+          <img src="{{ url_for('static', filename=product['Image URL'].replace('static/', '')) }}" alt="{{ product['Product Name'] }}">
+          {% endif %}
+          <h4>{{ product['Product Name'] }}</h4>
+          <p>Category: {{ product['Category'] }}</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="section-title">Top Selling Products</div>
+      <div class="product-grid">
+        {% for product in top_selling %}
+        <div class="product-card">
+          {% if product['Image URL'] %}
+          <img src="{{ url_for('static', filename=product['Image URL'].replace('static/', '')) }}" alt="{{ product['Product Name'] }}">
+          {% endif %}
+          <h4>{{ product['Product Name'] }}</h4>
+          <p>Sold: {{ product['Sold'] }}</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="section-title">Your Orders</div>
+      <div class="product-grid">
+        {% if customer_orders %}
+          {% for order in customer_orders %}
+          <div class="product-card">
+            <h4>{{ order.product_name }}</h4>
+            <p>Qty: {{ order.quantity }} @ ₹{{ order.price }}</p>
+            <p>Total: ₹{{ order.subtotal }}</p>
+            <p><small>{{ order.timestamp.split("T")[0] }}</small></p>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p>No orders placed yet.</p>
+        {% endif %}
+      </div>
+
+      <div class="section-title">Notifications</div>
+      <div class="product-grid">
+        {% if notifications %}
+          {% for note in notifications %}
+          <div class="product-card">
+            <h4>{{ note.type }}</h4>
+            <p>{{ note.message }}</p>
+            <p><small>{{ note.timestamp.split("T")[0] }}</small></p>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p>No notifications.</p>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.querySelector('.menu-toggle');
+      sidebar.classList.toggle('open');
+      toggle.classList.toggle('active');
+      document.body.classList.toggle('sidebar-open', sidebar.classList.contains('open'));
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.classList.toggle('show');
+    }
+
+    function navigate(path) {
+      window.location.href = path;
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('dropdownMenu');
+      const profile = document.querySelector('.profile-menu');
+      if (!profile.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Checkout</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .cart-summary {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-right: 15px;
+    }
+
+    .details {
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    .total {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 10px 25px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+
+    .back-link {
+      margin-top: 20px;
+      display: inline-block;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="cart-summary">
+    <h1>Confirm Your Order</h1>
+
+    {% for item in cart_items %}
+      <div class="cart-item">
+        <img src="{{ url_for('static', filename=item['image'].replace('static/', '')) }}" alt="{{ item['name'] }}">
+        <div class="details">
+          <strong>{{ item['name'] }}</strong><br>
+          ₹{{ item['price'] }} × {{ item['quantity'] }} = ₹{{ item['subtotal'] }}
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="total">Total: ₹{{ total }}</div>
+
+    <form method="POST">
+      <button class="btn" type="submit">Confirm & Pay</button>
+    </form>
+
+    <a href="{{ url_for('view_cart') }}" class="back-link">← Back to Cart</a>
+  </div>
+</body>
+</html>

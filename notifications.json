@@ -1,0 +1,28 @@
+{
+  "cust1@gmail.com": [
+    {
+      "type": "Order Confirmation",
+      "message": "You ordered Guava (1 units) - Total \u20b963",
+      "timestamp": "2025-07-17T21:44:34.868232"
+    },
+    {
+      "type": "Order Confirmation",
+      "message": "You ordered Butter (1 units) - Total \u20b9458",
+      "timestamp": "2025-07-19T11:10:48.110144"
+    }
+  ],
+  "lakshmidevi@gmail.com": [
+    {
+      "type": "New Order",
+      "message": "Order for Guava (1 units) received from cust1@gmail.com",
+      "timestamp": "2025-07-17T21:44:34.865329"
+    }
+  ],
+  "rameshgoud@gmail.com": [
+    {
+      "type": "New Order",
+      "message": "Order for Butter (1 units) received from cust1@gmail.com",
+      "timestamp": "2025-07-19T11:10:48.106741"
+    }
+  ]
+}

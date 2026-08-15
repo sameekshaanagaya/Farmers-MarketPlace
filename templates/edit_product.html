@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Product</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    input[type="file"] {
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Edit Product</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+  <label>Product Name</label>
+  <input type="text" name="item_name" value="{{ product['Product Name'] }}" required>
+
+  <label>Category</label>
+  <input type="text" name="category" value="{{ product['Category'] }}" required>
+
+  <label>Quantity</label>
+  <input type="number" name="quantity" value="{{ product['Quantity Available'] }}" required>
+
+  <label>Price (INR/kg/ltr)</label>
+  <input type="number" name="price" value="{{ product['Price (INR/kg/ltr)'] }}" required>
+
+  <label>Description</label>
+  <textarea name="description" required>{{ product['Description'] }}</textarea>
+
+  <label>Current Image</label><br>
+  {% if product['Image URL'] %}
+    <img src="{{ url_for('static', filename=product['Image URL'].replace('static/', '')) }}" alt="Product Image" style="max-width:100%; max-height:200px; margin-bottom:15px;">
+  {% else %}
+    <p>No image available</p>
+  {% endif %}
+
+  <label>Update Image (optional)</label>
+  <input type="file" name="image_file">
+
+  <button type="submit">Update Product</button>
+</form>
+  <a href="{{ url_for('view_products') }}" class="back-link">← Back to Products</a>
+</body>
+</html>

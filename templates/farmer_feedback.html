@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Feedback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .feedback {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .review {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .review strong {
+      color: #333;
+    }
+
+    .review small {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Feedback on Your Products</h1>
+  <div class="feedback">
+    {% if reviews %}
+      {% for product_name, feedbacks in reviews.items() %}
+        <div class="review">
+          <h3>{{ product_name }}</h3>
+          {% for fb in feedbacks %}
+            <p><strong>{{ fb.name }}</strong> (Rating: {{ fb.rating }})</p>
+            <p>{{ fb.comment }}</p>
+            <hr />
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No feedback received yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Institution Visit Booking</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    form input, form select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    form button {
+      margin-top: 20px;
+      padding: 12px;
+      background: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    form button:hover {
+      background: #218838;
+    }
+    .message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Book Farm Visit</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="message">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <label for="institute_name">Institution Name</label>
+      <input type="text" name="institute_name" required>
+
+      <label for="contact_email">Email</label>
+      <input type="email" name="contact_email" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="text" name="phone" required>
+
+      <label for="farmer_email">Select Farmer</label>
+      <select name="farmer_email" required>
+        <option value="">-- Select Farmer --</option>
+        {% for farmer in farmers %}
+          <option value="{{ farmer['Farmer Email'] }}">{{ farmer['Farmer Name'] }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="visit_date">Preferred Visit Date</label>
+      <input type="date" name="visit_date" required>
+
+      <button type="submit">Confirm and Pay</button>
+    </form>
+    
+  </div>
+</body>
+</html>

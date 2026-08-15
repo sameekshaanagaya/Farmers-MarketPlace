@@ -1,0 +1,21 @@
+{
+  "1005": [
+    {
+      "name": "satvikashetty",
+      "rating": 4.3,
+      "comment": "Good Jowar"
+    }
+  ],
+  "1000": [
+    {
+      "name": "satvikashetty",
+      "rating": 4.7,
+      "comment": "good butter"
+    },
+    {
+      "name": "cust1@gmail.com",
+      "rating": 4,
+      "comment": "Fresh Butter"
+    }
+  ]
+}

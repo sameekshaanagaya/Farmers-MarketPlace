@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Institute Visit Bookings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .notifications {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .note {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .note strong {
+      color: #333;
+    }
+
+    .note small {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Institute Visit Bookings</h1>
+  <div class="notifications">
+    {% if visits %}
+      {% for visit in visits %}
+        <div class="note">
+          <p><strong>Institution:</strong> {{ visit.institution }}</p>
+          <p><strong>Email:</strong> {{ visit.email }}</p>
+          <p><strong>Phone:</strong> {{ visit.phone }}</p>
+          <p><strong>Visit Date:</strong> {{ visit.visit_date }}</p>
+          <small>Booked on {{ visit.timestamp.split('T')[0] }}</small>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No institution bookings found.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
